@@ -78,7 +78,7 @@ let
 in
 rec {
   mkDriver = generic;
-  mkLibs = custom_build { libsOnly = true };
+  mkLibs = custom_build { libsOnly = true; };
 
   # Official Unix Drivers - https://www.nvidia.com/en-us/drivers/unix/
   # Branch/Maturity data - http://people.freedesktop.org/~aplattner/nvidia-versions.txt
