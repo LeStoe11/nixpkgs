@@ -22,6 +22,20 @@ let
         }).out;
     };
 
+  custom_build =
+    build_args:
+    args:
+    let
+      imported = import ./generic.nix args;
+    in
+    callPackage imported (build_args // {
+      lib32 =
+        (pkgsi686Linux.callPackage imported {
+          libsOnly = true;
+          kernel = null;
+        }).out;
+    });
+
   kernel =
     # a hacky way of extracting parameters from callPackage
     callPackage (
@@ -64,6 +78,7 @@ let
 in
 rec {
   mkDriver = generic;
+  mkLibs = custom_build { libsOnly = true; };
 
   # Official Unix Drivers - https://www.nvidia.com/en-us/drivers/unix/
   # Branch/Maturity data - http://people.freedesktop.org/~aplattner/nvidia-versions.txt
